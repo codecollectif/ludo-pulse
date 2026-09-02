@@ -1,0 +1,34 @@
+# Comments are provided throughout this file to help you get started.
+# If you need more help, visit the Docker Compose reference guide at
+# https://docs.docker.com/go/compose-spec-reference/
+
+# Here the instructions define your application as a service called "server".
+# This service is built from the Dockerfile in the current directory.
+# You can add other services your application may depend on here, such as a
+# database or a cache. For examples, see the Awesome Compose repository:
+# https://github.com/docker/awesome-compose
+services:
+  server:
+    build:
+      context: .
+    volumes:
+      - ".:/app"
+    ports:
+      - ${APP_PORT-5173}:${APP_PORT-5173}
+      - 24678:24678
+  mailpit:
+    image: axllent/mailpit:v1.29
+    container_name: mailpit
+    restart: unless-stopped
+    env_file: ./.env
+    volumes:
+      - ./data/mailpit:/data
+    ports:
+      - ${MP_UI_PORT-8025}:8025
+      - ${MP_SMTP_PORT-1025}:1025
+    environment:
+      MP_MAX_MESSAGES: 5000
+      MP_DATABASE: /data/mailpit.db
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+      MP_API_CORS: "*"
