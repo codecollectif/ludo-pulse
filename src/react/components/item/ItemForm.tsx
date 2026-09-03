@@ -20,11 +20,14 @@ import type { $ZodIssue as ZodIssue } from "zod/v4/core";
 import { FormError, hasError } from "../FormError";
 
 // 1. Define the shape using the shared ambient Item type
-type ItemFormValues = Pick<Item, "title">;
+type ItemFormValues = Pick<Item, "title" | "description">;
 
 // 2. Annotate the Zod schema with z.ZodType<ItemFormValues>
 const ItemFormSchema: z.ZodType<ItemFormValues> = z.object({
   title: z.string().min(1, "Title is required"),
+  description: z
+    .string()
+    .max(1000, "Description must be 1000 characters or less"),
 });
 
 /*
@@ -52,6 +55,7 @@ function ItemForm({ children, defaultValue, action }: ItemFormProps) {
   */
   const titleId = useId();
   const [errors, setErrors] = useState<ZodIssue[]>([]);
+  const descriptionId = useId();
 
   return (
     <form
@@ -90,6 +94,22 @@ function ItemForm({ children, defaultValue, action }: ItemFormProps) {
           aria-describedby={`${titleId}-error`}
         />
         <FormError issues={errors} name="title" id={`${titleId}-error`} />
+      </p>
+      <p>
+        <label htmlFor={descriptionId}>description</label>
+        <input
+          id={descriptionId}
+          type="text"
+          name="description"
+          defaultValue={defaultValue.description}
+          aria-invalid={hasError(errors, "description") || undefined}
+          aria-describedby={`${descriptionId}-error`}
+        />
+        <FormError
+          issues={errors}
+          name="description"
+          id={`${descriptionId}-error`}
+        />
       </p>
 
       {/* Action buttons (submit, cancel…) are injected by the caller */}

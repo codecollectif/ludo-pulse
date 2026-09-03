@@ -11,6 +11,7 @@ import { z } from "zod";
 export const ItemSchema = z.object({
   id: z.number(),
   title: z.string().max(255),
+  description: z.string().max(1000).optional().default(""),
   user_id: z.number(),
 });
 

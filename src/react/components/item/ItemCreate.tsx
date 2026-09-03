@@ -44,6 +44,7 @@ function ItemCreate() {
   */
   const newItem = {
     title: "",
+    description: "",
   };
 
   return (
