@@ -12,11 +12,13 @@ export const allItems: Item[] = [
   {
     id: 1,
     title: "Stuff",
+    description: "",
     user_id: fooUser.id,
   },
   {
     id: 2,
     title: "Doodads",
+    description: "",
     user_id: barUser.id,
   },
 ];

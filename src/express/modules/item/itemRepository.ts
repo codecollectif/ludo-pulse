@@ -43,8 +43,10 @@ class ItemRepository {
   */
   create(item: ItemDTOWithUserId): Item["id"] {
     const result = database
-      .prepare("insert into item (title, user_id) values (?, ?)")
-      .run(item.title, item.user_id);
+      .prepare(
+        "insert into item (title, description, user_id) values (?, ?, ?)",
+      )
+      .run(item.title, item.description, item.user_id);
 
     return Number(result.lastInsertRowid);
   }
@@ -66,7 +68,7 @@ class ItemRepository {
   find(id: Item["id"]): Item | null {
     const row = database
       .prepare(
-        "select id, title, user_id from item where id = ? and deleted_at is null",
+        "select id, title, description, user_id from item where id = ? and deleted_at is null",
       )
       .get(id);
 
@@ -82,7 +84,7 @@ class ItemRepository {
   findAll(limit: number, offset: number): Item[] {
     const rows = database
       .prepare(
-        "select id, title, user_id from item where deleted_at is null limit ? offset ?",
+        "select id, title, description, user_id from item where deleted_at is null limit ? offset ?",
       )
       .all(limit, offset);
 
@@ -120,9 +122,9 @@ class ItemRepository {
   update(item: Item): boolean {
     const result = database
       .prepare(
-        "update item set title = ?, user_id = ? where id = ? and deleted_at is null",
+        "update item set title = ?, description = ?, user_id = ? where id = ? and deleted_at is null",
       )
-      .run(item.title, item.user_id, item.id);
+      .run(item.title, item.description, item.user_id, item.id);
 
     return result.changes > 0;
   }

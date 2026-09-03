@@ -20,7 +20,7 @@
 */
 
 import { type RouteObject, useLoaderData } from "react-router";
-
+import About from "./components/About";
 import AccountPage from "./components/auth/AccountPage";
 import { MeProvider } from "./components/auth/MeContext";
 import VerifyPage from "./components/auth/VerifyPage";
@@ -29,6 +29,7 @@ import ErrorPage from "./components/ErrorPage";
 import Home from "./components/Home";
 import { itemRoutes } from "./components/item/index";
 import Layout from "./components/Layout";
+import "./index.css";
 
 /*
   Global styles
@@ -91,6 +92,10 @@ const routes: RouteObject[] = [
           {
             index: true,
             element: <Home />,
+          },
+          {
+            path: "/about",
+            element: <About />,
           },
           {
             path: "account",

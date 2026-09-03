@@ -18,7 +18,10 @@ describe("<ItemForm />", () => {
     await renderWithStub({
       path: "/items/new",
       Component: () => (
-        <ItemForm defaultValue={{ title: "" }} action={() => {}}>
+        <ItemForm
+          defaultValue={{ title: "", description: "" }}
+          action={() => {}}
+        >
           <button type="submit">submit</button>
         </ItemForm>
       ),
@@ -32,7 +35,10 @@ describe("<ItemForm />", () => {
     await renderWithStub({
       path: "/items/new",
       Component: () => (
-        <ItemForm defaultValue={{ title: "" }} action={() => {}}>
+        <ItemForm
+          defaultValue={{ title: "", description: "" }}
+          action={() => {}}
+        >
           <button type="submit">submit</button>
         </ItemForm>
       ),

@@ -18,6 +18,7 @@ create table magic_link_token (
 create table item (
   id integer primary key not null,
   title varchar(255) not null,
+  description text default '',
   created_at datetime default (strftime('%Y-%m-%dT%H:%M:%SZ')),
   deleted_at datetime default null,
   user_id integer not null,
