@@ -29,6 +29,8 @@ import ErrorPage from "./components/ErrorPage";
 import Home from "./components/Home";
 import { itemRoutes } from "./components/item/index";
 import Layout from "./components/Layout";
+import About from "./components/About";
+import "./index.css";
 
 /*
   Global styles
@@ -91,6 +93,10 @@ const routes: RouteObject[] = [
           {
             index: true,
             element: <Home />,
+          },
+          {
+            path: "/about",
+            element: <About />,
           },
           {
             path: "account",

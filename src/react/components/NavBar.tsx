@@ -52,6 +52,11 @@ function NavBar() {
           </>
         )}
       </ul>
+      <ul>
+        {link("/", "Home")}
+        {link("/about", "About")}
+        {/* ... */}
+      </ul>
     </nav>
   );
 }
