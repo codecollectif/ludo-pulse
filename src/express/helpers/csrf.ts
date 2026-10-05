@@ -70,10 +70,14 @@ export const csrf =
   } = csrfDefaults): RequestHandler =>
   (req, res, next) => {
     /*
-      Skip CSRF validation for safe methods.
-      This keeps read-only endpoints frictionless.
-    */
-    if (req.method.match(new RegExp(`(${ignoredMethods.join("|")})`, "i"))) {
+        Skip CSRF validation for safe methods.
+        This keeps read-only endpoints frictionless.
+      */
+    if (
+      ignoredMethods.some(
+        (method) => method.toUpperCase() === req.method.toUpperCase(),
+      )
+    ) {
       next();
       return;
     }
@@ -82,16 +86,16 @@ export const csrf =
     const tokenFromCookie = req.cookies[cookieName];
 
     /*
-      Reject the request if:
-      - the CSRF header is missing
-      - or the header and cookie do not match
-
-      Why 401 and not 403?
-      Using 401 makes CSRF failures indistinguishable from JWT
-      authentication failures. An attacker receiving 403 would know
-      their JWT is valid and only the CSRF token is wrong.
-      A uniform 401 reveals nothing about what specifically failed.
-    */
+        Reject the request if:
+        - the CSRF header is missing
+        - or the header and cookie do not match
+  
+        Why 401 and not 403?
+        Using 401 makes CSRF failures indistinguishable from JWT
+        authentication failures. An attacker receiving 403 would know
+        their JWT is valid and only the CSRF token is wrong.
+        A uniform 401 reveals nothing about what specifically failed.
+      */
     if (tokenFromRequest == null || tokenFromRequest !== tokenFromCookie) {
       res.sendStatus(401);
       return;
